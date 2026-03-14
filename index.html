@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Italy 2026 · Raposo Family Trip</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F4EE;
+    --warm-white: #FDFBF7;
+    --ink: #1C1915;
+    --ink-soft: #3D3A35;
+    --muted: #8C8880;
+    --border: rgba(28,25,21,0.1);
+    --border-strong: rgba(28,25,21,0.2);
+    --green: #2D6A4F;
+    --green-light: #D8EDE5;
+    --green-mid: #52A882;
+    --blue: #1B4F72;
+    --blue-light: #D6E8F5;
+    --amber: #7D5A1E;
+    --amber-light: #F5ECD7;
+    --coral: #8B3A2A;
+    --coral-light: #F5E0DB;
+    --purple: #4A3570;
+    --purple-light: #EAE5F5;
+    --rose: #7D3050;
+    --rose-light: #F5E0EA;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.015) 40px,
+      rgba(255,255,255,0.015) 41px
+    );
+  }
+
+  .header-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(247,244,238,0.5);
+    margin-bottom: 0.75rem;
+  }
+
+  .header-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 8vw, 5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .header-title em {
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .header-sub {
+    font-size: 13px;
+    color: rgba(247,244,238,0.55);
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+
+  .header-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+  }
+
+  .stat-lbl {
+    font-size: 11px;
+    color: rgba(247,244,238,0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 3px;
+  }
+
+  /* NAV */
+  .nav {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav-inner {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    max-width: 900px;
+    width: 100%;
+  }
+
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  .nav-btn {
+    padding: 1rem 1.5rem;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .nav-btn:hover { color: var(--ink); }
+  .nav-btn.active { color: var(--ink); border-bottom-color: var(--ink); }
+
+  /* MAIN */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* CALENDAR */
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+
+  .cal-header {
+    background: var(--ink);
+    color: rgba(247,244,238,0.6);
+    text-align: center;
+    padding: 0.6rem 0.3rem;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .cal-day {
+    background: var(--warm-white);
+    min-height: 80px;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+  }
+
+  .cal-day:hover { background: var(--cream); }
+  .cal-day.empty { background: var(--cream); opacity: 0.4; cursor: default; min-height: 60px; }
+  .cal-day.trip-day { background: #fff; }
+  .cal-day.selected { background: var(--ink) !important; }
+  .cal-day.selected .cal-day-num { color: var(--cream); }
+  .cal-day.selected .cal-dot { background: rgba(247,244,238,0.6) !important; }
+
+  .cal-day-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--ink-soft);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .cal-day.today .cal-day-num {
+    background: var(--ink);
+    color: var(--cream);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  .cal-dots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    margin-top: 3px;
+  }
+
+  .cal-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  .cal-city {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.2;
+  }
+
+  .cal-month-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--ink);
+    margin: 1.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* DAY DETAIL PANEL */
+  .day-detail {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: none;
+  }
+
+  .day-detail.visible { display: block; }
+
+  .day-detail-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .day-detail-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .day-detail-loc {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* TIMELINE */
+  .segment-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink);
+    margin: 2rem 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .segment-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .day-block {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .day-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .day-block-header:hover { background: #F0EDE6; }
+
+  .day-block-left {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .day-block-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .day-block-label {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .day-block-num {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .day-block-body { }
+  .day-block-body.collapsed { display: none; }
+
+  /* ITEMS */
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .item:last-child { border-bottom: none; }
+
+  .item-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 13px;
+    margin-top: 1px;
+  }
+
+  .i-fl { background: var(--blue-light); color: var(--blue); }
+  .i-tr { background: var(--coral-light); color: var(--coral); }
+  .i-ho { background: var(--green-light); color: var(--green); }
+  .i-ac { background: var(--amber-light); color: var(--amber); }
+  .i-ca { background: #EEECE8; color: #5C5A56; }
+  .i-fe { background: var(--blue-light); color: var(--blue); }
+  .i-fo { background: var(--green-light); color: var(--green); }
+  .i-sh { background: var(--rose-light); color: var(--rose); }
+  .i-pl { background: var(--purple-light); color: var(--purple); }
+
+  .item-body { flex: 1; min-width: 0; }
+
+  .item-title {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 2px;
+    line-height: 1.4;
+  }
+
+  .item-detail {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .item-detail span { display: inline-block; margin-right: 10px; }
+
+  .item-ref {
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--cream);
+    border-radius: 5px;
+    padding: 2px 7px;
+    margin-top: 4px;
+    display: inline-block;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  .item-action {
+    font-size: 11px;
+    color: var(--amber);
+    background: var(--amber-light);
+    border-radius: 5px;
+    padding: 2px 7px;
+    margin-top: 4px;
+    display: inline-block;
+  }
+
+  .item-unbooked {
+    font-size: 11px;
+    color: var(--purple);
+    background: var(--purple-light);
+    border-radius: 5px;
+    padding: 2px 7px;
+    margin-top: 4px;
+    display: inline-block;
+  }
+
+  .item-addr {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  .badge {
+    font-size: 11px;
+    padding: 2px 9px;
+    border-radius: 99px;
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-left: auto;
+    align-self: flex-start;
+    margin-top: 3px;
+  }
+
+  .b-ci { background: var(--green-light); color: var(--green); }
+  .b-co { background: var(--coral-light); color: var(--coral); }
+  .b-dp { background: var(--blue-light); color: var(--blue); }
+
+  /* BOOKINGS TABLE */
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 1.5rem;
+    background: var(--warm-white);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    padding: 10px 14px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  td.mu { color: var(--muted); font-size: 12px; }
+  td.mo { font-family: 'Courier New', monospace; font-size: 11px; color: var(--ink-soft); }
+
+  .cx { text-decoration: line-through; opacity: 0.4; }
+  .cb { font-size: 11px; color: var(--coral); background: var(--coral-light); border-radius: 99px; padding: 2px 8px; font-weight: 500; }
+
+  /* ROUTE */
+  .route-wrap {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+
+  .route-list { list-style: none; }
+
+  .route-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .route-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 36px;
+    flex-shrink: 0;
+  }
+
+  .route-node {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+    margin-top: 5px;
+    border: 2px solid var(--warm-white);
+    box-shadow: 0 0 0 2px var(--green);
+  }
+
+  .route-node.blue {
+    background: var(--blue);
+    box-shadow: 0 0 0 2px var(--blue);
+  }
+
+  .route-line {
+    width: 1px;
+    flex: 1;
+    min-height: 32px;
+    background: var(--border-strong);
+    margin: 3px 0;
+  }
+
+  .route-content { flex: 1; padding-bottom: 24px; }
+
+  .route-place {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .route-meta { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+
+  .route-transit {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--ink-soft);
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    margin-top: 4px;
+  }
+
+  /* TODO */
+  .todo-list { list-style: none; }
+
+  .todo-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 8px;
+  }
+
+  .todo-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  .todo-body { flex: 1; }
+  .todo-title { font-size: 13.5px; font-weight: 500; color: var(--ink); }
+  .todo-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    .header-stats { gap: 1.5rem; }
+    .cal-day { min-height: 60px; padding: 4px; }
+    .cal-city { display: none; }
+    .main { padding: 1.5rem 1rem; }
+    table { font-size: 12px; }
+    td, th { padding: 8px 10px; }
+  }
+
+  /* PRINT */
+  @media print {
+    .nav { display: none; }
+    .view { display: block !important; }
+    .day-block-body { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-eyebrow">Raposo Family</div>
+  <h1 class="header-title"><em>Italia</em> 2026</h1>
+  <p class="header-sub">May 24 – June 10 &nbsp;·&nbsp; William, Cristina, Abigail, Logan, Grace, Salomé</p>
+  <div class="header-stats">
+    <div class="stat"><div class="stat-num">17</div><div class="stat-lbl">Nights</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-lbl">Cities</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-lbl">Travellers</div></div>
+    <div class="stat"><div class="stat-num">9</div><div class="stat-lbl">Activities booked</div></div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showView('calendar',this)">Calendar</button>
+    <button class="nav-btn" onclick="showView('timeline',this)">Day by day</button>
+    <button class="nav-btn" onclick="showView('route',this)">Route</button>
+    <button class="nav-btn" onclick="showView('bookings',this)">All bookings</button>
+    <button class="nav-btn" onclick="showView('todo',this)">Still to do</button>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- CALENDAR VIEW -->
+<div id="view-calendar" class="view active">
+
+  <div id="day-detail-panel" class="day-detail">
+    <div class="day-detail-header">
+      <div class="day-detail-date" id="detail-date"></div>
+      <div class="day-detail-loc" id="detail-loc"></div>
+    </div>
+    <div id="detail-items"></div>
+  </div>
+
+  <div class="cal-month-label">May 2026</div>
+  <div class="calendar-grid">
+    <div class="cal-header">Sun</div>
+    <div class="cal-header">Mon</div>
+    <div class="cal-header">Tue</div>
+    <div class="cal-header">Wed</div>
+    <div class="cal-header">Thu</div>
+    <div class="cal-header">Fri</div>
+    <div class="cal-header">Sat</div>
+    <!-- May 2026 starts on Friday (index 5) -->
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day" onclick="showDetail('may1')"><div class="cal-day-num">1</div></div>
+    <div class="cal-day" onclick="showDetail('may2')"><div class="cal-day-num">2</div></div>
+    <div class="cal-day" onclick="showDetail('may3')"><div class="cal-day-num">3</div></div>
+    <div class="cal-day" onclick="showDetail('may4')"><div class="cal-day-num">4</div></div>
+    <div class="cal-day" onclick="showDetail('may5')"><div class="cal-day-num">5</div></div>
+    <div class="cal-day" onclick="showDetail('may6')"><div class="cal-day-num">6</div></div>
+    <div class="cal-day" onclick="showDetail('may7')"><div class="cal-day-num">7</div></div>
+    <div class="cal-day" onclick="showDetail('may8')"><div class="cal-day-num">8</div></div>
+    <div class="cal-day" onclick="showDetail('may9')"><div class="cal-day-num">9</div></div>
+    <div class="cal-day" onclick="showDetail('may10')"><div class="cal-day-num">10</div></div>
+    <div class="cal-day" onclick="showDetail('may11')"><div class="cal-day-num">11</div></div>
+    <div class="cal-day" onclick="showDetail('may12')"><div class="cal-day-num">12</div></div>
+    <div class="cal-day" onclick="showDetail('may13')"><div class="cal-day-num">13</div></div>
+    <div class="cal-day" onclick="showDetail('may14')"><div class="cal-day-num">14</div></div>
+    <div class="cal-day" onclick="showDetail('may15')"><div class="cal-day-num">15</div></div>
+    <div class="cal-day" onclick="showDetail('may16')"><div class="cal-day-num">16</div></div>
+    <div class="cal-day" onclick="showDetail('may17')"><div class="cal-day-num">17</div></div>
+    <div class="cal-day" onclick="showDetail('may18')"><div class="cal-day-num">18</div></div>
+    <div class="cal-day" onclick="showDetail('may19')"><div class="cal-day-num">19</div></div>
+    <div class="cal-day" onclick="showDetail('may20')"><div class="cal-day-num">20</div></div>
+    <div class="cal-day" onclick="showDetail('may21')"><div class="cal-day-num">21</div></div>
+    <div class="cal-day" onclick="showDetail('may22')"><div class="cal-day-num">22</div></div>
+    <div class="cal-day" onclick="showDetail('may23')"><div class="cal-day-num">23</div></div>
+    <div class="cal-day trip-day" id="may24" onclick="showDetail('may24')"><div class="cal-day-num">24</div><div class="cal-dots"><div class="cal-dot" style="background:var(--blue)"></div></div><div class="cal-city">Depart YYZ</div></div>
+    <div class="cal-day trip-day" id="may25" onclick="showDetail('may25')"><div class="cal-day-num">25</div><div class="cal-dots"><div class="cal-dot" style="background:var(--blue)"></div><div class="cal-dot" style="background:var(--green)"></div></div><div class="cal-city">Venice</div></div>
+    <div class="cal-day trip-day" id="may26" onclick="showDetail('may26')"><div class="cal-day-num">26</div><div class="cal-dots"><div class="cal-dot" style="background:var(--amber)"></div><div class="cal-dot" style="background:var(--amber)"></div></div><div class="cal-city">Venice</div></div>
+    <div class="cal-day trip-day" id="may27" onclick="showDetail('may27')"><div class="cal-day-num">27</div><div class="cal-dots"><div class="cal-dot" style="background:var(--coral)"></div><div class="cal-dot" style="background:var(--amber)"></div></div><div class="cal-city">Milan</div></div>
+    <div class="cal-day trip-day" id="may28" onclick="showDetail('may28')"><div class="cal-day-num">28</div><div class="cal-dots"><div class="cal-dot" style="background:var(--coral)"></div><div class="cal-dot" style="background:var(--amber)"></div></div><div class="cal-city">Lake Como</div></div>
+    <div class="cal-day trip-day" id="may29" onclick="showDetail('may29')"><div class="cal-day-num">29</div><div class="cal-dots"><div class="cal-dot" style="background:var(--coral)"></div><div class="cal-dot" style="background:var(--green)"></div></div><div class="cal-city">Cinque Terre</div></div>
+    <div class="cal-day trip-day" id="may30" onclick="showDetail('may30')"><div class="cal-day-num">30</div><div class="cal-dots"><div class="cal-dot" style="background:var(--amber)"></div></div><div class="cal-city">Cinque Terre</div></div>
+    <div class="cal-day trip-day" id="may31" onclick="showDetail('may31')"><div class="cal-day-num">31</div><div class="cal-dots"><div class="cal-dot" style="background:var(--coral)"></div><div class="cal-dot" style="background:var(--amber)"></div><div class="cal-dot" style="background:var(--green)"></div></div><div class="cal-city">Tuscany</div></div>
+  </div>
+
+  <div class="cal-month-label">June 2026</div>
+  <div class="calendar-grid">
+    <div class="cal-header">Sun</div>
+    <div class="cal-header">Mon</div>
+    <div class="cal-header">Tue</div>
+    <div class="cal-header">Wed</div>
+    <div class="cal-header">Thu</div>
+    <div class="cal-header">Fri</div>
+    <div class="cal-header">Sat</div>
+    <!-- June 2026 starts on Monday (index 1) -->
+    <div class="cal-day empty"></div>
+    <div class="cal-day trip-day" id="jun1" onclick="showDetail('jun1')"><div class="cal-day-num">1</div><div class="cal-dots"><div class="cal-dot" style="background:var(--amber)"></div></div><div class="cal-city">Tuscany</div></div>
+    <div class="cal-day trip-day" id="jun2" onclick="showDetail('jun2')"><div class="cal-day-num">2</div><div class="cal-dots"><div class="cal-dot" style="background:var(--amber)"></div><div class="cal-dot" style="background:var(--green)"></div></div><div class="cal-city">Florence</div></div>
+    <div class="cal-day trip-day" id="jun3" onclick="showDetail('jun3')"><div class="cal-day-num">3</div><div class="cal-dots"><div class="cal-dot" style="background:var(--amber)"></div></div><div class="cal-city">Tuscany</div></div>
+    <div class="cal-day trip-day" id="jun4" onclick="showDetail('jun4')"><div class="cal-day-num">4</div><div class="cal-dots"><div class="cal-dot" style="background:var(--blue)"></div><div class="cal-dot" style="background:var(--green)"></div></div><div class="cal-city">Sardinia</div></div>
+    <div class="cal-day trip-day" id="jun5" onclick="showDetail('jun5')"><div class="cal-day-num">5</div><div class="cal-dots"><div class="cal-dot" style="background:var(--blue)"></div></div><div class="cal-city">Sardinia</div></div>
+    <div class="cal-day trip-day" id="jun6" onclick="showDetail('jun6')"><div class="cal-day-num">6</div><div class="cal-dots"><div class="cal-dot" style="background:var(--blue)"></div></div><div class="cal-city">Sardinia</div></div>
+    <div class="cal-day trip-day" id="jun7" onclick="showDetail('jun7')"><div class="cal-day-num">7</div><div class="cal-dots"><div class="cal-dot" style="background:var(--blue)"></div><div class="cal-dot" style="background:var(--green)"></div></div><div class="cal-city">Rome</div></div>
+    <div class="cal-day trip-day" id="jun8" onclick="showDetail('jun8')"><div class="cal-day-num">8</div><div class="cal-dots"><div class="cal-dot" style="background:var(--amber)"></div></div><div class="cal-city">Rome</div></div>
+    <div class="cal-day trip-day" id="jun9" onclick="showDetail('jun9')"><div class="cal-day-num">9</div><div class="cal-dots"><div class="cal-dot" style="background:var(--amber)"></div><div class="cal-dot" style="background:var(--amber)"></div></div><div class="cal-city">Rome</div></div>
+    <div class="cal-day trip-day" id="jun10" onclick="showDetail('jun10')"><div class="cal-day-num">10</div><div class="cal-dots"><div class="cal-dot" style="background:var(--blue)"></div></div><div class="cal-city">Fly home</div></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+    <div class="cal-day empty"></div>
+  </div>
+
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;font-size:12px;color:var(--muted)">
+    <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--blue);margin-right:4px;vertical-align:middle"></span>Flight</span>
+    <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--coral);margin-right:4px;vertical-align:middle"></span>Train</span>
+    <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--amber);margin-right:4px;vertical-align:middle"></span>Activity</span>
+    <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:4px;vertical-align:middle"></span>Hotel</span>
+  </div>
+</div>
+
+<!-- TIMELINE VIEW -->
+<div id="view-timeline" class="view">
+
+<div class="segment-title">Outbound</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Sun May 24</span><span class="day-block-label">Toronto → Rome</span></div>
+    <span class="day-block-num">Day 0</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-fl">✈</div><div class="item-body"><div class="item-title">Air Transat TS308 — departs 9:40 PM</div><div class="item-detail"><span>YYZ T3 → FCO T3</span><span>8h 35m · Economy</span></div><div class="item-ref">C2HQE9 · William, Cristina, Abigail, Logan, Grace, Salomé</div></div><div class="badge b-dp">Departs</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Mon May 25</span><span class="day-block-label">Rome FCO → Venice</span></div>
+    <span class="day-block-num">Day 1</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-fl">✈</div><div class="item-body"><div class="item-title">Arrive FCO T3 at 12:15 PM</div><div class="item-detail"><span>Clear customs · transfer to T1</span></div></div></div>
+    <div class="item"><div class="item-icon i-fl">✈</div><div class="item-body"><div class="item-title">ITA Airways AZ1467 — FCO T1 → Venice Marco Polo</div><div class="item-detail"><span>Departs 17:20 · arrives 18:25</span></div><div class="item-ref">ITA res. X86Z4J · 6 pax</div></div><div class="badge b-dp">Departs</div></div>
+    <div class="item"><div class="item-icon i-fe">⛵</div><div class="item-body"><div class="item-title">Private water taxi — Venice Airport to dock</div><div class="item-detail"><span>Flexible day booking · coordinate for ~19:00</span></div><div class="item-action">Action: contact GYG operator to confirm evening slot</div></div></div>
+    <div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Residence Falier — check-in</div><div class="item-detail"><span>San Polo 2319, Venice · check-in until 11 PM</span></div><div class="item-ref">Booking.com #6025909960 · PIN 9655</div></div><div class="badge b-ci">Check-in</div></div>
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Evening — St. Mark's Square (Piazza San Marco)</div></div></div>
+    <div class="item"><div class="item-icon i-fo">🍽</div><div class="item-body"><div class="item-title">Dinner — All'Arco</div><div class="item-detail"><span>Best Venetian cicchetti · book ahead</span></div></div></div>
+  </div>
+</div>
+
+<div class="segment-title">Venice · 2 nights</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Tue May 26</span><span class="day-block-label">Venice</span></div>
+    <span class="day-block-num">Day 2</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">St. Mark's Basilica</div><div class="item-detail"><span>11:00 AM (meet 10:45 AM) · 6 guests · booked</span></div><div class="item-ref">GYG · Venice landmarks tour</div></div></div>
+    <div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Doge's Palace & Bridge of Sighs</div><div class="item-detail"><span>Included in GYG landmarks tour</span></div></div></div>
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Gondola ride — near Accademia Bridge (Dorsoduro)</div><div class="item-detail"><span>~80 EUR / 5 people · 30 min</span></div><div class="item-unbooked">Hire on the day</div></div></div>
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Walk Rialto Bridge & Rialto Market</div></div></div>
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Libreria Acqua Alta</div><div class="item-addr">C. Longa Santa Maria Formosa 5176b, 30122 Venezia</div></div></div>
+    <div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Sunset — San Giorgio Maggiore bell tower</div><div class="item-detail"><span>Best skyline view in Venice</span></div><div class="item-unbooked">Tickets in person on arrival</div></div></div>
+    <div class="item"><div class="item-icon i-fo">🍽</div><div class="item-body"><div class="item-title">Dinner — Antiche Carampane</div><div class="item-detail"><span>Top Venetian seafood · book ahead</span></div></div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Wed May 27</span><span class="day-block-label">Venice → Milan</span></div>
+    <span class="day-block-num">Day 3</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Residence Falier — check-out</div><div class="item-detail"><span>Until 10:00 AM</span></div></div><div class="badge b-co">Check-out</div></div>
+    <div class="item"><div class="item-icon i-tr">⇌</div><div class="item-body"><div class="item-title">Frecciarossa 9712 — Venezia Mestre → Milano Porta Garibaldi</div><div class="item-detail"><span>Depart 7:49 AM · arrive 9:55 AM · Coach 8 / Seat 8C</span></div><div class="item-ref">Trenitalia PNR T26ELN</div></div></div>
+    <div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Appartamento Isola — check-in</div><div class="item-detail"><span>Via Carmagnola 3, Garibaldi · check-in 3–10 PM</span></div><div class="item-ref">Booking.com #5248007968 · PIN 4477</div></div><div class="badge b-ci">Check-in</div></div>
+    <div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Duomo di Milano + terraces</div><div class="item-detail"><span>1:00 PM · booked</span></div><div class="item-ref">GYG · May 27 at 1:00 PM</div></div></div>
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Galleria Vittorio Emanuele II</div></div></div>
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Teatro alla Scala</div></div></div>
+    <div class="item"><div class="item-icon i-fo">🍽</div><div class="item-body"><div class="item-title">Lunch in Brera neighbourhood</div></div></div>
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Castello Sforzesco & Parco Sempione</div></div></div>
+    <div class="item"><div class="item-icon i-sh">◆</div><div class="item-body"><div class="item-title">Kiko Milano — makeup engraving for 1 EUR</div><div class="item-addr">Corso Vittorio Emanuele II, Galleria Passarella 10, 20122 Milano</div></div></div>
+  </div>
+</div>
+
+<div class="segment-title">Milan · 2 nights</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Thu May 28</span><span class="day-block-label">Lake Como day trip</span></div>
+    <span class="day-block-num">Day 4</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-tr">⇌</div><div class="item-body"><div class="item-title">Trenord Reg. 2121 — Milano Cadorna → Como Lago</div><div class="item-detail"><span>Depart 8:13 AM · arrive 9:14 AM · 1h direct</span><span>From Piazzale Luigi Cadorna</span></div><div class="item-ref">Trenitalia #2756886344 · both ways booked</div></div></div>
+    <div class="item"><div class="item-icon i-fe">⛵</div><div class="item-body"><div class="item-title">2–3 min walk from station → ferry dock · ferry to Lenno port</div><div class="item-unbooked">Ferry not yet bookable — arrange on the day</div></div></div>
+    <div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Villa del Balbianello</div><div class="item-detail"><span>From Lenno: 25-min walk or 5-min water taxi (not bookable yet)</span></div><div class="item-ref">Res. MPFAZBL9XG382L5W · MidaTicket OFA345660 · EUR 116</div></div></div>
+    <div class="item"><div class="item-icon i-tr">⇌</div><div class="item-body"><div class="item-title">Return train — Como Lago → Milano Cadorna</div><div class="item-detail"><span>Both ways booked</span></div></div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Fri May 29</span><span class="day-block-label">Milan → Monterosso</span></div>
+    <span class="day-block-num">Day 5</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Appartamento Isola — check-out</div><div class="item-detail"><span>Until 11:00 AM</span></div></div><div class="badge b-co">Check-out</div></div>
+    <div class="item"><div class="item-icon i-tr">⇌</div><div class="item-body"><div class="item-title">Intercity 657 — Milano Centrale → Monterosso</div><div class="item-detail"><span>Depart 8:05 AM · arrive 11:05 AM · Coach 4 / Seat 12B</span></div><div class="item-ref">Trenitalia PNR WMXXJN</div></div></div>
+    <div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Rita's House in Monterosso — check-in</div><div class="item-detail"><span>Via IV Novembre 75 · check-in 3–8 PM · someone meets you</span></div><div class="item-ref">Booking.com #6492548152 · PIN 0578 · +39 3774718874</div></div><div class="badge b-ci">Check-in</div></div>
+  </div>
+</div>
+
+<div class="segment-title">Cinque Terre · 2 nights</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Sat May 30</span><span class="day-block-label">Monterosso al Mare</span></div>
+    <span class="day-block-num">Day 6</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Cinque Terre coastal hike</div><div class="item-detail"><span>Monterosso → Vernazza most scenic section</span></div></div></div>
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Explore the villages and beaches</div></div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Sun May 31</span><span class="day-block-label">Monterosso → Pisa → Maranello → Tuscany</span></div>
+    <span class="day-block-num">Day 7</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Rita's House — check-out</div><div class="item-detail"><span>6:00–10:00 AM</span></div></div><div class="badge b-co">Check-out</div></div>
+    <div class="item"><div class="item-icon i-tr">⇌</div><div class="item-body"><div class="item-title">Intercity 651 — Monterosso → Pisa Centrale</div><div class="item-detail"><span>Depart 9:07 AM · arrive 10:20 AM · Coach 4 / Seat 5B</span></div><div class="item-ref">Trenitalia PNR T2ZYBN</div></div></div>
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Pisa Tower — 10 min walk from station</div></div></div>
+    <div class="item"><div class="item-icon i-ca">⊡</div><div class="item-body"><div class="item-title">Rental car pickup — Pisa Airport PSA, 10:30 AM</div><div class="item-detail"><span>CA $1,310.69 due at counter</span></div><div class="item-ref">Expedia #73380338869293</div></div></div>
+    <div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Musei Ferrari — Maranello + Modena combined pass</div><div class="item-detail"><span>All-day ticket · ~1.5h drive from Pisa · 4 adults + 2 under-19</span></div><div class="item-ref">Vivaticket TLITE0135609543253-50</div></div></div>
+    <div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Relax Hotel Acquaviva – Tuscany Hills — check-in</div><div class="item-detail"><span>Lucciana, 53031 · check-in 1–11 PM · 2 rooms · 4 nights</span></div><div class="item-ref">Booking.com #6390824344 · PIN 1771</div></div><div class="badge b-ci">Check-in</div></div>
+  </div>
+</div>
+
+<div class="segment-title">Tuscany · 4 nights</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Mon Jun 1</span><span class="day-block-label">Tuscany</span></div>
+    <span class="day-block-num">Day 8</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Chianti wine country</div></div></div>
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Volterra — hilltop Etruscan city</div></div></div>
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Montepulciano — where Twilight: New Moon was filmed</div></div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Tue Jun 2</span><span class="day-block-label">Florence day trip</span></div>
+    <span class="day-block-num">Day 9</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-fo">🍽</div><div class="item-body"><div class="item-title">Panetteria e Stuzzicheria De Neri</div><div class="item-addr">Via dei Neri 18/r, 50122 Firenze</div></div></div>
+    <div class="item"><div class="item-icon i-fo">🍽</div><div class="item-body"><div class="item-title">Pino's Sandwiches — Salumeria Verdi</div><div class="item-addr">Via Giuseppe Verdi 36R, 50122 Firenze</div></div></div>
+    <div class="item"><div class="item-icon i-sh">◆</div><div class="item-body"><div class="item-title">La Covelli leather factory — custom engraving</div><div class="item-addr">Borgo degli Albizi 80R, 50122 Firenze</div></div></div>
+    <div class="item"><div class="item-icon i-sh">◆</div><div class="item-body"><div class="item-title">Massimo Leather</div><div class="item-addr">Borgo la Noce 13-15/R, 50123 Firenze</div></div></div>
+    <div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Tuscan cooking class — handmade pasta & wine</div><div class="item-detail"><span>6:00 PM · 3 hours · English · 6 adults</span></div><div class="item-ref">GYG · C$ 274.44</div></div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Wed Jun 3</span><span class="day-block-label">Tuscany</span></div>
+    <span class="day-block-num">Day 10</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Free day — wine country, hill towns, or rest</div></div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Thu Jun 4</span><span class="day-block-label">Tuscany → Sardinia</span></div>
+    <span class="day-block-num">Day 11</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Relax Hotel Acquaviva — check-out</div><div class="item-detail"><span>Until 11:00 AM</span></div></div><div class="badge b-co">Check-out</div></div>
+    <div class="item"><div class="item-icon i-ca">⊡</div><div class="item-body"><div class="item-title">Rental car drop-off — Florence Airport FLR, 9:00 AM</div><div class="item-detail"><span>Via Palagio degli Spini · early key box drop</span></div><div class="item-ref">Expedia #73380338869293</div></div></div>
+    <div class="item"><div class="item-icon i-fl">✈</div><div class="item-body"><div class="item-title">Volotea — Florence FLR → Olbia OLB</div><div class="item-detail"><span>Depart ~6:05 AM</span></div><div class="item-ref">Volotea B3229L</div></div><div class="badge b-dp">Departs</div></div>
+    <div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Nautilus, Porto Istana — check-in</div><div class="item-detail"><span>In front of Tavolara Island · check-in 5–11:30 PM · keys in lockbox</span></div><div class="item-ref">Booking.com #6526687560 · PIN 9995 · +39 3482606807</div></div><div class="badge b-ci">Check-in</div></div>
+  </div>
+</div>
+
+<div class="segment-title">Sardinia · 3 nights</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Fri Jun 5</span><span class="day-block-label">Porto Istana</span></div>
+    <span class="day-block-num">Day 12</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Beach day — Tavolara Island views, crystal water</div></div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Sat Jun 6</span><span class="day-block-label">Porto Istana</span></div>
+    <span class="day-block-num">Day 13</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Beach day — free</div></div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Sun Jun 7</span><span class="day-block-label">Sardinia → Florence → Rome</span></div>
+    <span class="day-block-num">Day 14</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Nautilus Porto Istana — check-out</div><div class="item-detail"><span>Until 10:00 AM</span></div></div><div class="badge b-co">Check-out</div></div>
+    <div class="item"><div class="item-icon i-fl">✈</div><div class="item-body"><div class="item-title">Volotea — Olbia OLB → Florence FLR</div><div class="item-detail"><span>Depart ~7:40 AM · arrive ~8:45 AM</span></div><div class="item-ref">Volotea B3229L return</div></div></div>
+    <div class="item"><div class="item-icon i-fl">✈</div><div class="item-body"><div class="item-title">ITA Airways AZ1678 — Florence FLR → Rome FCO T1</div><div class="item-detail"><span>Departs 11:25 AM · arrives 12:20 PM</span></div><div class="item-ref">ITA res. YEKRC3 · 6 pax</div></div><div class="badge b-dp">Departs</div></div>
+    <div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Casa amoR in Trastevere — check-in</div><div class="item-detail"><span>Via Roma Libera 23, Trastevere · check-in 3–8 PM</span></div><div class="item-ref">Booking.com #6995966406 · PIN 9100 · +39 3203080240</div></div><div class="badge b-ci">Check-in</div></div>
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Afternoon — Chiesa di Sant'Ignazio di Loyola</div><div class="item-addr">Piazza S. Ignazio, 00186 Roma</div></div></div>
+    <div class="item"><div class="item-icon i-sh">◆</div><div class="item-body"><div class="item-title">Paolina Roma — charm bracelet</div><div class="item-addr">Via Urbana 122, 00184 Roma</div></div></div>
+    <div class="item"><div class="item-icon i-sh">◆</div><div class="item-body"><div class="item-title">Spazio Sette Libreria — bookstore</div><div class="item-addr">Via dei Barbieri 7, 00186 Roma</div></div></div>
+  </div>
+</div>
+
+<div class="segment-title">Rome · 3 nights</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Mon Jun 8</span><span class="day-block-label">Vatican City</span></div>
+    <span class="day-block-num">Day 15</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Vatican Museums & Sistine Chapel</div><div class="item-detail"><span>8:30 AM · 4 adults + 2 youth (age 7–18)</span></div><div class="item-ref">GYG · C$ 271.18</div></div></div>
+    <div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">St. Peter's Basilica & Square</div><div class="item-detail"><span>Free entry · after museums</span></div></div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Tue Jun 9</span><span class="day-block-label">Ancient Rome</span></div>
+    <span class="day-block-num">Day 16</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Pantheon — fast-track ticket + official audioguide</div><div class="item-detail"><span>9:00 AM · 6 guests</span></div><div class="item-ref">GYG · C$ 126.18</div></div></div>
+    <div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Colosseum with Arena, Roman Forum & Palatine + audioguide</div><div class="item-detail"><span>12:00 PM (meet 11:45 AM) · 4 adults + 2 children · 2.5h</span><span>Meet at Santi Cosma e Damiano Basilica, Via dei Fori Imperiali 1</span></div><div class="item-ref">GYG #GYG83XMMNVRZ · Vivicos Travel</div></div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-header" onclick="toggleDay(this)">
+    <div class="day-block-left"><span class="day-block-date">Wed Jun 10</span><span class="day-block-label">Rome → Toronto</span></div>
+    <span class="day-block-num">Day 17</span>
+  </div>
+  <div class="day-block-body">
+    <div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Casa amoR in Trastevere — check-out</div><div class="item-detail"><span>8:00–11:00 AM</span></div></div><div class="badge b-co">Check-out</div></div>
+    <div class="item"><div class="item-icon i-fl">✈</div><div class="item-body"><div class="item-title">Air Transat TS309 — departs 2:15 PM</div><div class="item-detail"><span>FCO T3 → YYZ T3 · 9h 45m · arrives 6:00 PM Toronto</span></div><div class="item-ref">C2HQE9</div></div><div class="badge b-dp">Departs</div></div>
+  </div>
+</div>
+
+</div><!-- end timeline -->
+
+<!-- ROUTE VIEW -->
+<div id="view-route" class="view">
+  <div class="route-wrap">
+    <ul class="route-list">
+      <li class="route-item"><div class="route-left"><div class="route-node blue"></div><div class="route-line"></div></div><div class="route-content"><div class="route-place">Toronto (YYZ)</div><div class="route-meta">May 24 · departure</div><div class="route-transit">✈ Air Transat TS308 · 8h 35m → FCO · then ITA AZ1467 17:20 → VCE</div></div></li>
+      <li class="route-item"><div class="route-left"><div class="route-node"></div><div class="route-line"></div></div><div class="route-content"><div class="route-place">Venice</div><div class="route-meta">May 25–27 · 2 nights · Residence Falier, San Polo</div><div class="route-transit">⇌ Frecciarossa 9712 · Venezia Mestre → Milano P. Garibaldi</div></div></li>
+      <li class="route-item"><div class="route-left"><div class="route-node"></div><div class="route-line"></div></div><div class="route-content"><div class="route-place">Milan</div><div class="route-meta">May 27–29 · 2 nights · Appartamento Isola, Garibaldi · day trip Como May 28</div><div class="route-transit">⇌ Intercity 657 · Milano Centrale → Monterosso</div></div></li>
+      <li class="route-item"><div class="route-left"><div class="route-node"></div><div class="route-line"></div></div><div class="route-content"><div class="route-place">Monterosso al Mare (Cinque Terre)</div><div class="route-meta">May 29–31 · 2 nights · Rita's House</div><div class="route-transit">⇌ IC651 → Pisa · rental car PSA 10:30 AM · drive via Maranello</div></div></li>
+      <li class="route-item"><div class="route-left"><div class="route-node"></div><div class="route-line"></div></div><div class="route-content"><div class="route-place">Tuscany (Lucciana)</div><div class="route-meta">May 31 – Jun 4 · 4 nights · Relax Hotel Acquaviva, Tuscany Hills</div><div class="route-transit">⊡ Car drop FLR early AM · ✈ Volotea FLR ~6:05 AM → OLB</div></div></li>
+      <li class="route-item"><div class="route-left"><div class="route-node"></div><div class="route-line"></div></div><div class="route-content"><div class="route-place">Sardinia (Porto Istana)</div><div class="route-meta">Jun 4–7 · 3 nights · Nautilus, Tavolara Island</div><div class="route-transit">✈ Volotea OLB ~7:40 → FLR · ITA AZ1678 FLR 11:25 → FCO 12:20</div></div></li>
+      <li class="route-item"><div class="route-left"><div class="route-node"></div><div class="route-line"></div></div><div class="route-content"><div class="route-place">Rome</div><div class="route-meta">Jun 7–10 · 3 nights · Casa amoR, Trastevere</div><div class="route-transit">✈ Air Transat TS309 · FCO 2:15 PM → YYZ 6:00 PM</div></div></li>
+      <li class="route-item"><div class="route-left"><div class="route-node blue"></div></div><div class="route-content"><div class="route-place">Toronto (YYZ)</div><div class="route-meta">Jun 10 · arrives 6:00 PM</div></div></li>
+    </ul>
+  </div>
+</div>
+
+<!-- BOOKINGS VIEW -->
+<div id="view-bookings" class="view">
+
+  <div class="section-title">Flights</div>
+  <table><thead><tr><th>Date</th><th>Detail</th><th>Ref</th></tr></thead><tbody>
+    <tr><td class="mu">May 24</td><td>Air Transat TS308 &nbsp; YYZ 9:40 PM → FCO T3 +1 12:15 PM</td><td class="mo">C2HQE9</td></tr>
+    <tr><td class="mu">May 25</td><td>ITA Airways AZ1467 &nbsp; FCO T1 17:20 → Venice Marco Polo 18:25</td><td class="mo">X86Z4J</td></tr>
+    <tr><td class="mu">Jun 4</td><td>Volotea &nbsp; FLR ~6:05 AM → OLB</td><td class="mo">B3229L</td></tr>
+    <tr><td class="mu">Jun 7</td><td>Volotea &nbsp; OLB ~7:40 AM → FLR ~8:45 AM</td><td class="mo">B3229L</td></tr>
+    <tr><td class="mu">Jun 7</td><td>ITA Airways AZ1678 &nbsp; FLR 11:25 → FCO T1 12:20</td><td class="mo">YEKRC3</td></tr>
+    <tr><td class="mu">Jun 10</td><td>Air Transat TS309 &nbsp; FCO T3 2:15 PM → YYZ T3 6:00 PM</td><td class="mo">C2HQE9</td></tr>
+  </tbody></table>
+
+  <div class="section-title">Trains</div>
+  <table><thead><tr><th>Date</th><th>Route</th><th>Ref</th></tr></thead><tbody>
+    <tr><td class="mu">May 27</td><td>Frecciarossa 9712 &nbsp; Venezia Mestre 7:49 → Milano P. Garibaldi 9:55</td><td class="mo">T26ELN</td></tr>
+    <tr><td class="mu">May 28</td><td>Trenord Reg. 2121 &nbsp; Milano Cadorna 8:13 → Como Lago 9:14 + return</td><td class="mo">2756886344</td></tr>
+    <tr><td class="mu">May 29</td><td>Intercity 657 &nbsp; Milano Centrale 8:05 → Monterosso 11:05</td><td class="mo">WMXXJN</td></tr>
+    <tr><td class="mu">May 31</td><td>Intercity 651 &nbsp; Monterosso 9:07 → Pisa Centrale 10:20</td><td class="mo">T2ZYBN</td></tr>
+  </tbody></table>
+
+  <div class="section-title">Car rental</div>
+  <table><thead><tr><th></th><th>Detail</th><th>Itinerary</th></tr></thead><tbody>
+    <tr><td class="mu">Pickup</td><td>Pisa Airport PSA &nbsp; Sun May 31, 10:30 AM</td><td class="mo" rowspan="2">73380338869293</td></tr>
+    <tr><td class="mu">Drop-off</td><td>Florence Airport FLR &nbsp; Thu Jun 4, 9:00 AM · early key box drop</td></tr>
+  </tbody></table>
+
+  <div class="section-title">Accommodation</div>
+  <table><thead><tr><th>Dates</th><th>Property</th><th>Confirmation</th></tr></thead><tbody>
+    <tr><td class="mu">May 25–27</td><td>Residence Falier · San Polo, Venice</td><td class="mo">6025909960</td></tr>
+    <tr><td class="mu">May 27–29</td><td>Appartamento Isola · Garibaldi, Milan</td><td class="mo">5248007968</td></tr>
+    <tr><td class="mu">May 29–31</td><td>Rita's House · Monterosso al Mare</td><td class="mo">6492548152</td></tr>
+    <tr><td class="mu">May 31–Jun 4</td><td>Relax Hotel Acquaviva, Tuscany Hills · Lucciana · 2 rooms</td><td class="mo">6390824344</td></tr>
+    <tr><td class="mu">Jun 4–7</td><td>Nautilus · Porto Istana, Sardinia · 3-bed house</td><td class="mo">6526687560</td></tr>
+    <tr><td class="mu">Jun 7–10</td><td>Casa amoR in Trastevere · Rome</td><td class="mo">6995966406</td></tr>
+  </tbody></table>
+
+  <div class="section-title">Activities — booked</div>
+  <table><thead><tr><th>Date</th><th>Activity</th><th>Cost</th></tr></thead><tbody>
+    <tr><td class="mu">May 25</td><td>Venice Airport private water taxi · flexible booking · confirm evening slot</td><td class="mu">GYG</td></tr>
+    <tr><td class="mu">May 26</td><td>St. Mark's Basilica, Doge's Palace & Bridge of Sighs · 11:00 AM · 6 guests</td><td class="mu">GYG</td></tr>
+    <tr><td class="mu">May 27</td><td>Duomo di Milano + terraces · 1:00 PM</td><td class="mu">GYG</td></tr>
+    <tr><td class="mu">May 28</td><td>Villa del Balbianello · Lake Como</td><td class="mo">MPFAZBL9XG382L5W</td></tr>
+    <tr><td class="mu">May 31</td><td>Musei Ferrari Maranello + Modena · all-day · 4 adults + 2 under-19</td><td class="mu">Vivaticket</td></tr>
+    <tr><td class="mu">Jun 2</td><td>Florence cooking class — pasta & wine · 6:00 PM · 3h · 6 adults</td><td class="mu">C$ 274</td></tr>
+    <tr><td class="mu">Jun 8</td><td>Vatican Museums & Sistine Chapel · 8:30 AM · 4 adults + 2 youth</td><td class="mu">C$ 271</td></tr>
+    <tr><td class="mu">Jun 9</td><td>Pantheon fast-track + audioguide · 9:00 AM · 6 guests</td><td class="mu">C$ 126</td></tr>
+    <tr><td class="mu">Jun 9</td><td>Colosseum with Arena, Forum & Palatine · 12:00 PM · 4+2 · 2.5h</td><td class="mo">GYG83XMMNVRZ</td></tr>
+  </tbody></table>
+
+  <div class="section-title">Cancelled / superseded</div>
+  <table><tbody>
+    <tr><td class="mu">—</td><td><span class="cx">Resort con piscina, Stintino (Jun 4–7)</span></td><td><span class="cb">Cancelled</span></td></tr>
+    <tr><td class="mu">—</td><td><span class="cx">Expedia car rental #73374469551232</span></td><td><span class="cb">Superseded</span></td></tr>
+    <tr><td class="mu">—</td><td><span class="cx">Expedia car rental #73371116068879</span></td><td><span class="cb">Superseded</span></td></tr>
+  </tbody></table>
+
+</div>
+
+<!-- TODO VIEW -->
+<div id="view-todo" class="view">
+  <ul class="todo-list">
+    <li class="todo-item"><div class="todo-dot" style="background:var(--amber)"></div><div class="todo-body"><div class="todo-title">Water taxi operator — confirm evening slot</div><div class="todo-sub">May 25 · after AZ1467 lands Venice 18:25 · contact GYG operator to book ~19:00</div></div></li>
+    <li class="todo-item"><div class="todo-dot" style="background:var(--purple)"></div><div class="todo-body"><div class="todo-title">Gondola ride — hire on the day</div><div class="todo-sub">May 26 · near Accademia Bridge, Dorsoduro · ~80 EUR / 5 people</div></div></li>
+    <li class="todo-item"><div class="todo-dot" style="background:var(--purple)"></div><div class="todo-body"><div class="todo-title">San Giorgio Maggiore bell tower — tickets in person</div><div class="todo-sub">May 26 · buy on arrival at the island</div></div></li>
+    <li class="todo-item"><div class="todo-dot" style="background:var(--amber)"></div><div class="todo-body"><div class="todo-title">Dinner reservation — Antiche Carampane, Venice</div><div class="todo-sub">May 26 · top seafood restaurant, books up · call ahead</div></div></li>
+    <li class="todo-item"><div class="todo-dot" style="background:var(--purple)"></div><div class="todo-body"><div class="todo-title">Como → Lenno ferry</div><div class="todo-sub">May 28 · not yet bookable · arrange on the day at Como Lago dock</div></div></li>
+    <li class="todo-item"><div class="todo-dot" style="background:var(--purple)"></div><div class="todo-body"><div class="todo-title">Lenno water taxi → Villa Balbianello</div><div class="todo-sub">May 28 · not yet bookable · or walk 25 min from Lenno</div></div></li>
+  </ul>
+</div>
+
+</main>
+
+<script>
+function showView(id, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleDay(header) {
+  const body = header.nextElementSibling;
+  body.classList.toggle('collapsed');
+}
+
+const dayData = {
+  may24: { date: 'Sunday, May 24', loc: 'Toronto → Rome', items: '<div class="item"><div class="item-icon i-fl">✈</div><div class="item-body"><div class="item-title">Air Transat TS308 departs 9:40 PM</div><div class="item-detail"><span>YYZ T3 → FCO T3 · 8h 35m</span></div><div class="item-ref">C2HQE9</div></div></div>' },
+  may25: { date: 'Monday, May 25', loc: 'Rome → Venice · Day 1', items: '<div class="item"><div class="item-icon i-fl">✈</div><div class="item-body"><div class="item-title">ITA AZ1467 — FCO T1 17:20 → Venice 18:25</div><div class="item-ref">X86Z4J</div></div></div><div class="item"><div class="item-icon i-fe">⛵</div><div class="item-body"><div class="item-title">Water taxi — Venice Airport to dock</div><div class="item-action">Confirm evening slot with GYG operator</div></div></div><div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Residence Falier — check-in</div><div class="item-ref">#6025909960 · PIN 9655</div></div></div>' },
+  may26: { date: 'Tuesday, May 26', loc: 'Venice · Day 2', items: '<div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">St. Mark\'s Basilica + Doge\'s Palace · 11:00 AM</div><div class="item-ref">GYG booked</div></div></div><div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Gondola ride, Rialto, Libreria Acqua Alta, San Giorgio tower</div></div></div><div class="item"><div class="item-icon i-fo">🍽</div><div class="item-body"><div class="item-title">Dinner — Antiche Carampane</div></div></div>' },
+  may27: { date: 'Wednesday, May 27', loc: 'Venice → Milan · Day 3', items: '<div class="item"><div class="item-icon i-tr">⇌</div><div class="item-body"><div class="item-title">Frecciarossa 9712 · 7:49 AM → 9:55 AM</div><div class="item-ref">T26ELN</div></div></div><div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Duomo + terraces · 1:00 PM booked</div><div class="item-ref">GYG</div></div></div><div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Appartamento Isola — check-in</div><div class="item-ref">#5248007968 · PIN 4477</div></div></div>' },
+  may28: { date: 'Thursday, May 28', loc: 'Lake Como day trip · Day 4', items: '<div class="item"><div class="item-icon i-tr">⇌</div><div class="item-body"><div class="item-title">Cadorna → Como Lago · 8:13 AM</div><div class="item-ref">#2756886344 · both ways booked</div></div></div><div class="item"><div class="item-icon i-fe">⛵</div><div class="item-body"><div class="item-title">Ferry → Lenno · then walk or taxi to Villa</div></div></div><div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Villa del Balbianello</div><div class="item-ref">MPFAZBL9XG382L5W</div></div></div>' },
+  may29: { date: 'Friday, May 29', loc: 'Milan → Cinque Terre · Day 5', items: '<div class="item"><div class="item-icon i-tr">⇌</div><div class="item-body"><div class="item-title">IC 657 · Milano Centrale 8:05 → Monterosso 11:05</div><div class="item-ref">WMXXJN</div></div></div><div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Rita\'s House — check-in 3–8 PM</div><div class="item-ref">#6492548152 · PIN 0578</div></div></div>' },
+  may30: { date: 'Saturday, May 30', loc: 'Cinque Terre · Day 6', items: '<div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Coastal hike — Monterosso → Vernazza</div></div></div>' },
+  may31: { date: 'Sunday, May 31', loc: 'Cinque Terre → Tuscany · Day 7', items: '<div class="item"><div class="item-icon i-tr">⇌</div><div class="item-body"><div class="item-title">IC 651 · Monterosso 9:07 → Pisa 10:20</div><div class="item-ref">T2ZYBN</div></div></div><div class="item"><div class="item-icon i-ca">⊡</div><div class="item-body"><div class="item-title">Rental car pickup — PSA 10:30 AM</div><div class="item-ref">Expedia #73380338869293</div></div></div><div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Musei Ferrari — all-day pass</div></div></div><div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Relax Hotel Acquaviva — check-in</div><div class="item-ref">#6390824344 · PIN 1771</div></div></div>' },
+  jun1: { date: 'Monday, June 1', loc: 'Tuscany · Day 8', items: '<div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Chianti · Volterra · Montepulciano</div></div></div>' },
+  jun2: { date: 'Tuesday, June 2', loc: 'Florence day trip · Day 9', items: '<div class="item"><div class="item-icon i-fo">🍽</div><div class="item-body"><div class="item-title">De Neri sandwiches · Pino\'s Sandwiches</div></div></div><div class="item"><div class="item-icon i-sh">◆</div><div class="item-body"><div class="item-title">La Covelli leather · Massimo Leather</div></div></div><div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Cooking class — pasta & wine · 6:00 PM</div><div class="item-ref">GYG · C$ 274</div></div></div>' },
+  jun3: { date: 'Wednesday, June 3', loc: 'Tuscany · Day 10', items: '<div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Free day — wine country, hill towns, or rest</div></div></div>' },
+  jun4: { date: 'Thursday, June 4', loc: 'Tuscany → Sardinia · Day 11', items: '<div class="item"><div class="item-icon i-ca">⊡</div><div class="item-body"><div class="item-title">Car drop FLR · 9:00 AM (key box)</div></div></div><div class="item"><div class="item-icon i-fl">✈</div><div class="item-body"><div class="item-title">Volotea FLR → OLB · ~6:05 AM</div><div class="item-ref">B3229L</div></div></div><div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Nautilus Porto Istana — check-in 5 PM+</div><div class="item-ref">#6526687560 · PIN 9995</div></div></div>' },
+  jun5: { date: 'Friday, June 5', loc: 'Sardinia · Day 12', items: '<div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Beach day — Tavolara Island</div></div></div>' },
+  jun6: { date: 'Saturday, June 6', loc: 'Sardinia · Day 13', items: '<div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">Beach day — free</div></div></div>' },
+  jun7: { date: 'Sunday, June 7', loc: 'Sardinia → Rome · Day 14', items: '<div class="item"><div class="item-icon i-fl">✈</div><div class="item-body"><div class="item-title">Volotea OLB → FLR · ~7:40 AM</div><div class="item-ref">B3229L return</div></div></div><div class="item"><div class="item-icon i-fl">✈</div><div class="item-body"><div class="item-title">ITA AZ1678 · FLR 11:25 → FCO 12:20</div><div class="item-ref">YEKRC3</div></div></div><div class="item"><div class="item-icon i-ho">⌂</div><div class="item-body"><div class="item-title">Casa amoR in Trastevere — check-in 3–8 PM</div><div class="item-ref">#6995966406 · PIN 9100</div></div></div>' },
+  jun8: { date: 'Monday, June 8', loc: 'Vatican City · Day 15', items: '<div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Vatican Museums & Sistine Chapel · 8:30 AM</div><div class="item-ref">GYG · C$ 271</div></div></div><div class="item"><div class="item-icon i-pl">◈</div><div class="item-body"><div class="item-title">St. Peter\'s Basilica — free entry after museums</div></div></div>' },
+  jun9: { date: 'Tuesday, June 9', loc: 'Ancient Rome · Day 16', items: '<div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Pantheon fast-track · 9:00 AM</div><div class="item-ref">GYG · C$ 126</div></div></div><div class="item"><div class="item-icon i-ac">★</div><div class="item-body"><div class="item-title">Colosseum + Arena + Forum · 12:00 PM</div><div class="item-ref">GYG83XMMNVRZ</div></div></div>' },
+  jun10: { date: 'Wednesday, June 10', loc: 'Rome → Toronto · Day 17', items: '<div class="item"><div class="item-icon i-fl">✈</div><div class="item-body"><div class="item-title">Air Transat TS309 · FCO 2:15 PM → YYZ 6:00 PM</div><div class="item-ref">C2HQE9</div></div></div>' },
+};
+
+let activeDay = null;
+
+function showDetail(dayId) {
+  const data = dayData[dayId];
+  if (!data) return;
+
+  const panel = document.getElementById('day-detail-panel');
+  const dateEl = document.getElementById('detail-date');
+  const locEl = document.getElementById('detail-loc');
+  const itemsEl = document.getElementById('detail-items');
+
+  if (activeDay) {
+    const prev = document.getElementById(activeDay);
+    if (prev) prev.classList.remove('selected');
+  }
+
+  const dayEl = document.getElementById(dayId);
+  if (dayEl) dayEl.classList.add('selected');
+  activeDay = dayId;
+
+  dateEl.textContent = data.date;
+  locEl.textContent = data.loc;
+  itemsEl.innerHTML = data.items;
+  panel.classList.add('visible');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+</script>
+
+</body>
+</html>
